@@ -85,4 +85,5 @@ for(id in unique(action_train$userid)){
 dim(new_action)
 new_action=new_action[new_action$length_time!=0,]
 #save(new_action, file = "data/new_action.rda")
-
+load("data/new_action.rda")
+write.csv(new_action, file = "data/new_action.csv", row.names = FALSE)

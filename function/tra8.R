@@ -31,7 +31,6 @@ orderFuture_train = fread("data/trainingset/orderFuture_train.csv",encoding = "U
 orderFuture_train$userid=as.character(orderFuture_train$userid)
 
 #
-train_action_noorder=new_aciton_orderHistory[,c()]
 #有tag和无tag的分别处理
 #没有历史订单，但是futuretype为1的共有3747个
 #对于没有历史订单的是否应该单独处理？

@@ -1,26 +1,28 @@
 rm(list=ls())
 library(data.table)
 setwd("F:/DataMining/R/travel")
-
 action_test = fread("data/test/action_test.csv",encoding = "UTF-8")
-action_test$actionTime=as.POSIXct(action_test$actionTime, origin="1970-01-01 00:00:00")
-action_test$userid=as.character(action_test$userid)
-action=action_test
+
+local_action=action_test
+
+#------------以下可包装为函数，local_action为输入变量，test_new_action为输出-----#
+local_action$actionTime=as.POSIXct(local_action$actionTime, origin="1970-01-01 00:00:00")
+local_action$userid=as.character(local_action$userid)
 
 #去掉id数只出现1~2次的
-userid_s=table(action$userid)
+userid_s=table(local_action$userid)
 userid_s=as.data.frame(userid_s)
 userid_s=userid_s[userid_s$Freq>2,]
-dim(action)
-action=action[action$userid %in% userid_s$Var1,]
-dim(action)
+dim(local_action)
+local_action=local_action[local_action$userid %in% userid_s$Var1,]
+dim(local_action)
 library(plyr)
 new_action=NULL
 type_lecels=c("1","2","3","4","5","6","7","8","9")
-for(id in unique(action$userid)){
+for(id in unique(local_action$userid)){
   print(id)
   #id=100000000371
-  action_sub=action[action$userid==id,]
+  action_sub=local_action[local_action$userid==id,]
   start_time=1
   for(i in seq(2,length(action_sub$actionTime))){
     #print(i)
@@ -53,5 +55,7 @@ for(id in unique(action$userid)){
 }
 dim(new_action)
 new_action=new_action[new_action$length_time!=0,]
-new_action_test=new_action
-save(new_action_test, file = "data/new_action_test.rda")
+test_new_action=new_action
+save(test_new_action, file = "data/output/test_new_action.rda")
+load("data/output/test_new_action.rda")
+#colnames(test_new_action)[1]="userid"
