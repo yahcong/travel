@@ -6,6 +6,9 @@ orderFuture_train = fread("data/train/orderFuture_train.csv",encoding = "UTF-8")
 load("data/output/train_new_orderHistory_hour.rda")
 
 #order_n2_type和order_n2_type的缺失值过多，直接去掉了这两个属性
+#city country continent是从小到大的包含关系(三个属性选择其中一个就可以)，先尝试使用continent
+#continent有六种，country有51种.city有205种
+#字符带来的NAs？
 local_orderHistory=train_new_orderHistory_hour[,c(1:3,6,11)]
 #local_orderHistory=as.data.frame(local_orderHistory)
 local_orderHistory$continent=as.factor(local_orderHistory$continent)
@@ -51,7 +54,7 @@ names(orderHistory_future)
 #[1] "userid"     "orderid"    "orderTime"  "continent"  "order_hour" "orderType"
 model_randomForest_orderHistory<-randomForest(orderType ~ ., data = orderHistory_future,ntree=100)
 save(model_randomForest_orderHistory,file="model/model_randomForest_orderHistory.rda")
-load("model/model_randomForest_orderHistory.rda")                                   
+load("model/model_randomForest_orderHistory.rda")                
 
 #predict
 predict_result=orderHistory_future
@@ -106,8 +109,4 @@ varImpPlot(model_randomForest_orderHistory)
 
 #?MDSplot 函数用于实现随机森林的可视化
 #MDSplot(model_randomForest_orderHistory,orderHistory_future$orderType)
-
-
-
-
 
