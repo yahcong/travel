@@ -7,3 +7,5 @@ wk["主动热情|提前联系|耐心等候"]
 install.packages("mice")
 install.packages("pROC")
 install.packages("AUC")
+install.packages("ROCR")
+install.packages("party")
