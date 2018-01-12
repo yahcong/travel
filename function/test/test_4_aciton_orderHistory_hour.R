@@ -18,6 +18,14 @@ local_action_orderHistory$start_hour=hour(local_action_orderHistory$starttime)+m
 local_action_orderHistory$end_hour=hour(local_action_orderHistory$endtime)+minute(local_action_orderHistory$endtime)%/%30
 local_action_orderHistory$order_hour=hour(local_action_orderHistory$orderTime)+minute(local_action_orderHistory$orderTime)%/%30
 
+local_action_orderHistory$start_hour[local_action_orderHistory$start_hour==24]=0
+local_action_orderHistory$end_hour[local_action_orderHistory$end_hour==24]=0
+local_action_orderHistory$order_hour[local_action_orderHistory$order_hour==24]=0
+
+local_action_orderHistory$start_hour=as.factor(local_action_orderHistory$start_hour)
+local_action_orderHistory$end_hour=as.factor(local_action_orderHistory$end_hour)
+local_action_orderHistory$order_hour=as.factor(local_action_orderHistory$order_hour)
+
 #
 test_aciton_orderHistory_hour=local_action_orderHistory[,c(1,14,15,4:13,18:26)]
 save(test_aciton_orderHistory_hour, file = "data/output/test_aciton_orderHistory_hour.rda")

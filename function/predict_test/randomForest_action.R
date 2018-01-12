@@ -17,6 +17,7 @@ action_future=local_action
 library(randomForest)
 load("model/model_randomForest_action.rda")
 predict_result_action=action_future
-predict_result_action$predict_type=predict(model_randomForest_action,predict_result_action)
+predict_result_action$predict_type=predict(model_randomForest_action,predict_result_action[,c(4:15)])
 save(predict_result_action,file="data/output/predict_result_action.rda")
 load("data/output/predict_result_action.rda")
+

@@ -72,5 +72,8 @@ load("data/output/train_new_orderHistory.rda")
 library(lubridate)
 train_new_orderHistory_hour=train_new_orderHistory
 train_new_orderHistory_hour$order_hour=hour(train_new_orderHistory_hour$orderTime)+minute(train_new_orderHistory_hour$orderTime)%/%30
+train_new_orderHistory_hour$order_hour[train_new_orderHistory_hour$order_hour==24]=0
+train_new_orderHistory_hour$order_hour=as.factor(train_new_orderHistory_hour$order_hour)
+
 save(train_new_orderHistory_hour, file = "data/output/train_new_orderHistory_hour.rda")
 load("data/output/train_new_orderHistory_hour.rda")

@@ -19,6 +19,7 @@ action_orderHistory_future=local_test_aciton_orderHistory
 library(randomForest)
 load("model/model_randomForest_orderHistory.rda")
 predict_result_action_orderHistory=action_orderHistory_future
-predict_result_action_orderHistory$predict_type=predict(model_randomForest_orderHistory,predict_result_action_orderHistory)
+predict_result_action_orderHistory$predict_type=predict(model_randomForest_orderHistory,
+                                                        predict_result_action_orderHistory[,c(2:18)])
 save(predict_result_action_orderHistory,file="data/output/predict_result_action_orderHistory.rda")
 load("data/output/predict_result_action_orderHistory.rda")

@@ -67,5 +67,10 @@ library(lubridate)
 test_new_action_hour=test_new_action
 test_new_action_hour$start_hour=hour(test_new_action_hour$starttime)+minute(test_new_action_hour$starttime)%/%30
 test_new_action_hour$end_hour=hour(test_new_action_hour$endtime)+minute(test_new_action_hour$endtime)%/%30
+test_new_action_hour$start_hour[test_new_action_hour$start_hour==24]=0
+test_new_action_hour$end_hour[test_new_action_hour$end_hour==24]=0
+test_new_action_hour$start_hour=as.factor(test_new_action_hour$start_hour)
+test_new_action_hour$end_hour=as.factor(test_new_action_hour$end_hour)
 save(test_new_action_hour, file = "data/output/test_new_action_hour.rda")
 load("data/output/test_new_action_hour.rda")
+

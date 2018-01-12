@@ -8,6 +8,14 @@ orderFuture_test$userid=as.character(orderFuture_test$userid)
 load("data/output/predict_result_orderHistory.rda")
 load("data/output/predict_result_action.rda")
 load("data/output/predict_result_action_orderHistory.rda")
+
+#采用Hmisc中的包
+#对数据集进行描述
+library(Hmisc)
+describe(predict_result_orderHistory)
+describe(predict_result_action)
+describe(predict_result_action_orderHistory
+
 str(predict_result_orderHistory)
 str(predict_result_action)
 str(predict_result_action_orderHistory)

@@ -9,7 +9,7 @@ load("data/output/train_new_orderHistory_hour.rda")
 #city country continent是从小到大的包含关系(三个属性选择其中一个就可以)，先尝试使用continent
 #continent有六种，country有51种.city有205种
 #字符带来的NAs？
-local_orderHistory=train_new_orderHistory_hour[,c(1:3,6,11)]
+local_orderHistory=train_new_orderHistory_hour[,c(1,6,7,8,11)]
 #local_orderHistory=as.data.frame(local_orderHistory)
 local_orderHistory$continent=as.factor(local_orderHistory$continent)
 
@@ -28,19 +28,7 @@ md.pattern(orderHistory_future)
 #有缺失值，故可以用能处理缺失值的randomForest包party
 library(party)
 set.seed(42)
-#cforest不支持字符，故将city,country,continent换成向量
-#orderHistory_future$continent=as.factor(orderHistory_future$continent)
-#orderHistory_future$city=as.factor(orderHistory_future$city)
-#orderHistory_future$country=as.factor(orderHistory_future$country)
-#orderHistory_future$userid=as.numeric(orderHistory_future$userid)
-#orderHistory_future$orderTime=as.numeric(orderHistory_future$orderTime)
 
-model_cforest_orderHistory<-cforest(orderType ~ ., data = orderHistory_future,
-                                         control=cforest_unbiased(mtry=2,ntree=50))
-save(model_cforest_orderHistory,file="model/model_cforest_orderHistory.rda")
-load("model/model_cforest_orderHistory.rda")
-### estimate conditional Kaplan-Meier curves
-treeresponse(model_cforest_orderHistory, newdata = orderHistory_future[1:2,], OOB = TRUE)
 #构建决策树
 orderHistory_ctree<-ctree(orderType ~.,data=orderHistory_future)
 save(orderHistory_ctree,file="data/output/orderHistory_ctree.rda")
@@ -52,7 +40,7 @@ plot(orderHistory_ctree, type="simple")
 #随机森林randomForest
 names(orderHistory_future)
 #[1] "userid"     "orderid"    "orderTime"  "continent"  "order_hour" "orderType"
-model_randomForest_orderHistory<-randomForest(orderType ~ ., data = orderHistory_future,ntree=100)
+model_randomForest_orderHistory<-randomForest(orderType ~ ., data = orderHistory_future[,c(2:6)],ntree=100)
 save(model_randomForest_orderHistory,file="model/model_randomForest_orderHistory.rda")
 load("model/model_randomForest_orderHistory.rda")                
 

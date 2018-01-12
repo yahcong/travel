@@ -6,19 +6,26 @@ orderFuture_train = fread("data/train/orderFuture_train.csv",encoding = "UTF-8")
 load("data/output/train_new_action_hour.rda")
 
 local_action=train_new_action_hour
+
 str(local_action)
 library(mice)
 md.pattern(local_action)
 orderFuture_train$userid=as.character(orderFuture_train$userid)
 action_future=merge(local_action,orderFuture_train,by="userid",all.x = T)
 action_future$orderType=as.factor(action_future$orderType)
+
+# #观察数据结构
+# MASS::parcoord(action_future[, 4:15],
+#                col = action_future[, 16],
+#                var.label = TRUE,
+#                lwd = 2)
+
+#train
 library(randomForest)
 str(action_future)
 md.pattern(action_future)
-
-#train
 set.seed(100)
-model_randomForest_action=randomForest(orderType ~ ., data = action_future,importance=TRUE,ntree=100)
+model_randomForest_action=randomForest(orderType ~ ., data = action_future[,c(4:16)],importance=TRUE,ntree=100)
 save(model_randomForest_action,file="model/model_randomForest_action.rda")
 load("model/model_randomForest_action.rda")
 

@@ -16,7 +16,7 @@ md.pattern(local_train_aciton_orderHistory)
 
 action_orderHistory_future=merge(local_train_aciton_orderHistory,orderFuture_train,by="userid",all.x = T)
 action_orderHistory_future$orderType=as.factor(action_orderHistory_future$orderType)
-
+action_orderHistory_future=action_orderHistory_future[,c(2:19)]
 library(randomForest)
 str(action_orderHistory_future)
 md.pattern(action_orderHistory_future)

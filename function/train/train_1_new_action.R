@@ -67,5 +67,9 @@ library(lubridate)
 train_new_action_hour=train_new_action
 train_new_action_hour$start_hour=hour(train_new_action_hour$starttime)+minute(train_new_action_hour$starttime)%/%30
 train_new_action_hour$end_hour=hour(train_new_action_hour$endtime)+minute(train_new_action_hour$endtime)%/%30
+train_new_action_hour$start_hour[train_new_action_hour$start_hour==24]=0
+train_new_action_hour$end_hour[train_new_action_hour$end_hour==24]=0
+train_new_action_hour$start_hour=as.factor(train_new_action_hour$start_hour)
+train_new_action_hour$end_hour=as.factor(train_new_action_hour$end_hour)
 save(train_new_action_hour, file = "data/output/train_new_action_hour.rda")
 load("data/output/train_new_action_hour.rda")
