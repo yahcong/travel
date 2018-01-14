@@ -13,7 +13,8 @@ md.pattern(local_action)
 orderFuture_train$userid=as.character(orderFuture_train$userid)
 action_future=merge(local_action,orderFuture_train,by="userid",all.x = T)
 action_future$orderType=as.factor(action_future$orderType)
-
+save(action_future,file="data/output/action_future.rda")
+load("data/output/action_future.rda")
 # #观察数据结构
 # MASS::parcoord(action_future[, 4:15],
 #                col = action_future[, 16],

@@ -24,7 +24,8 @@ orderHistory_future$orderType=as.factor(orderHistory_future$orderType)
 library(randomForest)
 str(orderHistory_future)
 md.pattern(orderHistory_future)
-
+save(orderHistory_future,file="data/output/orderHistory_future.rda")
+load("data/output/orderHistory_future.rda")
 #有缺失值，故可以用能处理缺失值的randomForest包party
 library(party)
 set.seed(42)
